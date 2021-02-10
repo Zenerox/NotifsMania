@@ -1,1 +1,3 @@
-flash
+{% for message in app.flashes(['success', 'error', 'alert']) %}
+    <div class=""></div>
+{% endfor %}
