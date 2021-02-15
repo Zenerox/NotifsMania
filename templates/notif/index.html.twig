@@ -5,9 +5,9 @@
 {% block body %}
 <div class="example-wrapper">
     {% for notif in notifs %}
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            {{ notif.type ~ ' : ' ~ notif.message }}
+    <div class="row {{ notif.type }} notif rounded">
+        <div>
+            <p>{{ notif.message }}</p>
         </div>
     </div>
     {% endfor %}
