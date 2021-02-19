@@ -4,6 +4,10 @@
 body {
 
 }
+h1, h2 {
+    margin-bottom: 25px !important;
+    margin-top: 25px !important;
+}
 .nav_item_left {
     margin-left : 30px;
 }
@@ -15,6 +19,9 @@ body {
 }
 .info {
     background-color: green;
+}
+.verify_email_error {
+    background-color: red;
 }
 .notif{
     margin-bottom: 5px;

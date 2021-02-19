@@ -14,9 +14,10 @@
 
         <div class="container">
             {% block body %}{% endblock %}
-
-            {{ include("partials/_footer.html.twig") }}
         </div>
+
+        {{ include("partials/_footer.html.twig") }}
+
         {% block javascript %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

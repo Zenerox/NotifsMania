@@ -23,11 +23,23 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register_choice', name:'app_register_choice')]
+    public function registerChoice() : Response
+    {
+        return $this->render('registration/register_choix.html.twig');
+    }
+
+    #[Route('/register/{type<[1-2]>}', name: 'app_register')]
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        /* le type permet de savoir si c'est un compte utilisateur ou pro
+        * 1 = utilisateur
+        * 2 = pro
+        */
+        $type = $request->get('type');
+
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user, ['typeCompte' => $type]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,7 +69,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView()
         ]);
     }
 

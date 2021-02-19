@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création de votre compte{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h2>Choix du type de compte</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a href="{{ path('app_register', {type: 1}) }}" class="btn btn-primary btn-block">Je veux m'abonner à des entreprises</a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('app_register', {type: 2}) }}" class="btn btn-primary btn-block">Je veux inscrire mon entreprise</a>
+        </div>
+    </div>
+{% endblock %}
