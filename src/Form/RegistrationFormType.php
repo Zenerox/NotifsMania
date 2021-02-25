@@ -103,6 +103,7 @@ class RegistrationFormType extends AbstractType
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Merci de saisir un siren valide pour que la raison sociale soit récupérée',
+
                         ]),
                     ]
                 ])

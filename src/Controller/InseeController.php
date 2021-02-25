@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[Route('/insee')]
 class InseeController extends AbstractController
 {
-    public function __construct(private HttpClientInterface $client)
+    public function __construct()
     {
 
     }
@@ -23,13 +23,13 @@ class InseeController extends AbstractController
     }
 
     #[Route('/siren', name:'siren')]
-    public function returnInfos(Request $request) : Response
+    public function returnInfos(Request $request, HttpClientInterface $client) : Response
     {
         // il faut supprimer les espaces pour l'api de l'insee
         $siren = str_replace(' ', '', $request->query->get('siren'));
         $type = strlen($siren) == 9 ? 'siren' : 'siret';
 
-        $response = $this->client->request(
+        $response = $client->request(
             'GET',
             'https://api.insee.fr/entreprises/sirene/V3/'.$type.'/'.$siren,
             [
@@ -59,14 +59,14 @@ class InseeController extends AbstractController
             $reponse['ville'] = $content['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'];
             $activite = $content['etablissement']['uniteLegale']['activitePrincipaleUniteLegale'];
         }
-        $reponse['activite'] = $this->returnInfosNaf($activite);
+        $reponse['activite'] = $this->returnInfosNaf($activite, $client);
         return $this->json($reponse);
     }
 
     #[Route('/naf', name:'naf')]
-    public function returnInfosNaf(string $naf) : String
+    public function returnInfosNaf(string $naf, HttpClientInterface $client) : String
     {
-        $response = $this->client->request(
+        $response = $client->request(
             'GET',
             'https://api.insee.fr/metadonnees/nomenclatures/v1/codes/nafr2/sousClasse/'.$naf,
             [

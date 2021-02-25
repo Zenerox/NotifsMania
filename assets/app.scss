@@ -29,3 +29,9 @@ h1, h2 {
 .form-help {
     font-style: italic !important;
 }
+.invalid {
+    border: 2px solid red !important;
+}
+.help-block, #error_siren {
+    color: red;
+}

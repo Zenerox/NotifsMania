@@ -1,5 +1,7 @@
 $(document).ready(function(){
     $('#registration_form_siren').focusout(function(){
+        $('#registration_form_siren').removeClass('invalid');
+        $('#error_siren').remove();
         var siren = $('#registration_form_siren').val().replace(/ /g, '');
         $('#registration_form_raisonSociale').val('');
         $('#registration_form_activite').val('');
@@ -20,6 +22,12 @@ $(document).ready(function(){
                     $('#registration_form_codePostal').val(data['codePostal']);
                     $('#registration_form_ville').val(data['ville']);
                 }
+            },
+            error: function(){
+                $('#registration_form_siren_help').append("<div id='error_siren'>Une erreur a été rencontrée lors de la récupération de " +
+                    "vos informations auprès de l'Insee. Merci de vérifier le siren/siret fourni ou de " +
+                    "recommencer l'opération dans quelques minutes.</div>")
+                $('#registration_form_siren').addClass('invalid');
             }
         })
     });
