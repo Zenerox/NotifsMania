@@ -42,7 +42,7 @@ class User implements UserInterface
     private $type;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=14, nullable=true)
      */
     private $siren;
 
@@ -52,7 +52,7 @@ class User implements UserInterface
     private $raisonSociale;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
 
@@ -62,12 +62,12 @@ class User implements UserInterface
     private $adresseComplement;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $codePostal;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $ville;
 
@@ -90,6 +90,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siteInternet;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isInternetOnly;
 
     public function getId(): ?int
     {
@@ -115,7 +125,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->prenom . " " . $this->nom == " " ? $this->getRaisonSociale() : $this->prenom . " " . $this->nom;
     }
 
     /**
@@ -184,12 +194,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSiren(): ?int
+    public function getSiren(): ?string
     {
         return $this->siren;
     }
 
-    public function setSiren(?int $siren): self
+    public function setSiren(?string $siren): self
     {
         $this->siren = $siren;
 
@@ -300,6 +310,30 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getSiteInternet(): ?string
+    {
+        return $this->siteInternet;
+    }
+
+    public function setSiteInternet(?string $siteInternet): self
+    {
+        $this->siteInternet = $siteInternet;
+
+        return $this;
+    }
+
+    public function getIsInternetOnly(): ?bool
+    {
+        return $this->isInternetOnly;
+    }
+
+    public function setIsInternetOnly(bool $isInternetOnly): self
+    {
+        $this->isInternetOnly = $isInternetOnly;
 
         return $this;
     }

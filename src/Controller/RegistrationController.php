@@ -39,6 +39,7 @@ class RegistrationController extends AbstractController
         $type = $request->get('type');
 
         $user = new User();
+        $user->setIsInternetOnly(false);
         $form = $this->createForm(RegistrationFormType::class, $user, ['typeCompte' => $type]);
         $form->handleRequest($request);
 
@@ -50,7 +51,11 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            // identifie si uniquement internet ou non
+            if($user->getType() == 2) {
+                $user->setIsInternetOnly($form->get('internet')->getData());
+                $user->setSiren(str_replace(" ", "", $user->getSiren()));
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -64,7 +69,8 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-            $this->addFlash('success', 'Votre compte a bien été créé, vous êtes authentifié');
+            $this->addFlash('success', "Votre compte a bien été créé. Merci de valider votre adresse 
+            via le mail qui vous a été envoyé à l'adresse e-mail fournie");
             return $this->redirectToRoute('app_home');
         }
 
@@ -84,12 +90,12 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_home');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Votre adresse e-mail a été verifiée avec succès.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_home');
     }
 }
